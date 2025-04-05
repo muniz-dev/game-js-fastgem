@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gem Collector</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
+
 <body>
     <section meta-id="game-content">
         <!-- Temporizador Circular -->
@@ -16,9 +18,18 @@
 
         <!-- Contador de Gema -->
         <div class="gem-caption">You collected <br /><span>0</span> Gem(s)</div>
-        
+
         <!-- Diamante -->
         <div class="gem"></div>
+
+        <div class="difficulty-selector">
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+
 
         <!-- Botão de Start -->
         <button class="start-button"></button>
@@ -36,4 +47,5 @@
     <!-- SCRIPTS -->
     <script src="scripts/main.js"></script>
 </body>
+
 </html>

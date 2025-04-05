@@ -1,5 +1,8 @@
 const API_BASE_URL = "http://localhost:3000/api/ranking";
 
+var difficultySelect = document.getElementById("difficulty");
+var currentDifficulty = "normal";
+
 var pickGem = document.querySelector(".gem");
 var showCount = document.querySelector("span");
 var getBody = document.querySelector("body");
@@ -51,8 +54,12 @@ async function saveRankingToAPI() {
     
     if (!playerName) return;
 
-    const data = { playerName, gemsCollected: gemCount };
-
+    const data = {
+        playerName,
+        gemsCollected: gemCount,
+        difficulty: currentDifficulty
+    };
+    
     try {
         await fetch(`${API_BASE_URL}/save-score`, {
             method: "POST",
@@ -70,6 +77,12 @@ updateRankingFromAPI();
 
 // Inicia o jogo
 function startGame() {
+    currentDifficulty = difficultySelect.value;
+
+    pickGem.classList.remove("easy", "normal", "hard");
+    pickGem.classList.add(currentDifficulty);
+    
+
     gemCount = 0;
     remainingTime = totalTime;
     showCount.innerHTML = gemCount;
@@ -77,10 +90,12 @@ function startGame() {
     pickGem.style.display = "block";
     gameOverText.style.display = "none";
     startButton.style.display = "none";
+    difficultySelect.style.display = "none";
     updateTimer();
     resetTimer();
     interval = setInterval(decreaseTime, 100);
 }
+
 
 // Encerra o jogo
 async function endGame() {
@@ -88,6 +103,8 @@ async function endGame() {
     pickGem.style.display = "none";
     gameOverText.style.display = "block";
     startButton.style.display = "flex";
+    difficultySelect.style.display = "block";
+
     clearInterval(interval);
 
     await saveRankingToAPI();

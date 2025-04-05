@@ -2,21 +2,21 @@ const pool = require("../database/connection");
 
 // Salvar o resultado do jogo no banco de dados
 const saveScore = async (req, res) => {
-    const { playerName, gemsCollected } = req.body;
+    const { playerName, gemsCollected, difficulty } = req.body;
 
-    if (!playerName || gemsCollected === undefined) {
+    if (!playerName || gemsCollected === undefined || difficulty === undefined) {
         return res.status(400).json({ error: "Nome do jogador e gemas coletadas são obrigatórios!" });
     }
 
     try {
         await pool.query(
-            `INSERT INTO infinite_gems.ranking (player_name, gems_collected) VALUES ($1, $2)`,
-            [playerName, gemsCollected]
+            `INSERT INTO infinite_gems.ranking (player_name, gems_collected, difficulty) VALUES ($1, $2, $3)`,
+            [playerName, gemsCollected, difficulty]
         );
         res.status(201).json({ message: "Pontuação salva com sucesso!" });
     } catch (error) {
         console.error("Erro ao salvar pontuação:", error);
-        res.status(500).json({ error: "Erro ao salvar pontuação" });
+        res.status(500).json({ error: "Erro ao salvar pontuação" + error });
     }
 };
 
